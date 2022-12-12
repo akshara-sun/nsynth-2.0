@@ -1,20 +1,12 @@
 import React, { useState } from "react";
-import {
-  Grid,
-  Paper,
-  Typography,
-  Switch,
-  FormControlLabel,
-} from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import * as Tone from "tone";
+import PianoControls from "./PianoControls";
 
 const Piano = ({ whiteKeys, blackKeys }) => {
   const [showNoteNames, setShowNoteNames] = useState(false);
+  const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
   const synth = new Tone.Synth().toDestination();
-
-  const handlePlayNote = (note) => {
-    synth.triggerAttackRelease(note, "8n");
-  };
 
   document.addEventListener("keydown", (e) => {
     if (e.repeat) return;
@@ -22,7 +14,7 @@ const Piano = ({ whiteKeys, blackKeys }) => {
     const natural = whiteKeys.find((note) => note.key === key);
     const sharp = blackKeys.find((note) => note.key === key);
     if (natural) {
-      handlePlayNote(natural.name);
+      synth.triggerAttackRelease(natural.name, "8n");
       const activeKey = document.getElementById(natural.id);
       activeKey.style.backgroundColor = "lightgray";
       document.addEventListener("keyup", (e) => {
@@ -30,7 +22,7 @@ const Piano = ({ whiteKeys, blackKeys }) => {
       });
     }
     if (sharp) {
-      handlePlayNote(sharp.name);
+      synth.triggerAttackRelease(sharp.name, "8n");
       const activeKey = document.getElementById(sharp.id);
       activeKey.style.backgroundColor = "gray";
       document.addEventListener("keyup", (e) => {
@@ -67,7 +59,7 @@ const Piano = ({ whiteKeys, blackKeys }) => {
               height: 220,
             }}
             className="white-key"
-            onClick={() => handlePlayNote(note.name)}>
+            onClick={() => synth.triggerAttackRelease(note.name, "8n")}>
             <Typography
               variant="caption"
               sx={{ visibility: showNoteNames ? "visible" : "hidden" }}>
@@ -103,34 +95,45 @@ const Piano = ({ whiteKeys, blackKeys }) => {
               backgroundColor: "black",
               color: "white",
               display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "center",
+              flexDirection: "column",
+              textAlign: "center",
+              justifyContent: "space-between",
               height: 160,
               px: 1,
               mr: index === 1 && 9,
             }}
             className="black-keys"
-            onClick={() => handlePlayNote(note.name)}>
+            onClick={() => synth.triggerAttackRelease(note.name, "8n")}>
             <Typography
               variant="caption"
-              sx={{ visibility: showNoteNames ? "visible" : "hidden" }}>
+              sx={{
+                color: "yellow",
+                pt: 1,
+                visibility: showKeyboardShortcuts ? "visible" : "hidden",
+              }}>
+              {note.key}
+            </Typography>
+            <Typography
+              variant="caption"
+              sx={{
+                maxWidth: 24,
+                visibility: showNoteNames ? "visible" : "hidden",
+              }}>
               {note.name}
+              {` -- `}
+              {note.enharmonic}
             </Typography>
           </Grid>
         ))}
       </Grid>
-      <Grid item xs={12} sx={{ pt: 1 }}>
-        <FormControlLabel
-          control={
-            <Switch
-              color="success"
-              onChange={() => setShowNoteNames(!showNoteNames)}
-              label="Show Note Names"
-            />
-          }
-          label="Show note names"
-        />
-      </Grid>
+      <PianoControls
+        showKeyboardShortcuts={showKeyboardShortcuts}
+        showNoteNames={showNoteNames}
+        onToggleKeyboardShortcuts={() =>
+          setShowKeyboardShortcuts(!showKeyboardShortcuts)
+        }
+        onToggleNoteNames={() => setShowNoteNames(!showNoteNames)}
+      />
     </Grid>
   );
 };
