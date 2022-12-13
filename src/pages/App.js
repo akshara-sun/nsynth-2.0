@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Container, ToggleButton, Typography } from "@mui/material";
 import Piano from "../components/Piano";
+import Sequencer from "../components/Sequencer/Sequencer";
 import DrumPads from "../components/DrumPads";
 import { NATURAL_NOTES, SHARP_NOTES } from "../constants/NOTES";
 import { DRUM_SOUNDS } from "../constants/DRUM_SOUNDS";
@@ -10,8 +11,14 @@ const App = () => {
   const [isOn, setIsOn] = useState(false);
 
   const handleStartSynth = async () => {
-    await Tone.start();
     setIsOn(!isOn);
+    if (isOn === false) {
+      await Tone.start();
+      console.log("audio is ready");
+    } else {
+      await Tone.Transport.stop();
+      console.log("audio is off");
+    }
   };
 
   return (
@@ -26,7 +33,7 @@ const App = () => {
           alignItems: "center",
         }}>
         {!isOn && (
-          <Typography variant="h6" align="center" sx={{ my: 4 }}>
+          <Typography variant="h6" align="center">
             Click the button to turn on the synthesizer
           </Typography>
         )}
@@ -37,18 +44,19 @@ const App = () => {
             width: 50,
             height: 50,
             m: 1,
-            backgroundColor: isOn ? "black" : "grey",
+            backgroundColor: isOn ? "grey" : "black",
             "&:hover": {
               backgroundColor: "beige",
             },
-            color: isOn ? "green" : "black",
+            color: isOn ? "black" : "green",
           }}>
-          {isOn ? "On" : "Off"}
+          {isOn ? "Off" : "On"}
         </ToggleButton>
       </Box>
       <Box sx={{ visibility: isOn ? "visible" : "hidden" }}>
-        <DrumPads sounds={DRUM_SOUNDS} isOn={isOn} />
-        <Piano whiteKeys={NATURAL_NOTES} blackKeys={SHARP_NOTES} isOn={isOn} />
+        <DrumPads sounds={DRUM_SOUNDS} />
+        <Piano whiteKeys={NATURAL_NOTES} blackKeys={SHARP_NOTES} />
+        <Sequencer />
       </Box>
     </Container>
   );
