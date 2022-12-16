@@ -58,17 +58,17 @@ const App = () => {
             }}>
             <Box sx={{ visibility: isOn ? "visible" : "hidden" }}>
               <Sequencer />
+              <Typography variant="body2">
+                NSynth 2.0 is a web-based synthesizer and sequencer that uses
+                the Tone.js library.
+              </Typography>
+              <Typography
+                variant="caption"
+                component={Link}
+                href="https://github.com/akshara-sun">
+                Built by Akshara.
+              </Typography>
             </Box>
-            <Typography variant="body2">
-              NSynth 2.0 is a web-based synthesizer and sequencer that uses the
-              Tone.js library.
-            </Typography>
-            <Typography
-              variant="caption"
-              component={Link}
-              href="https://github.com/akshara-sun">
-              Built by Akshara.
-            </Typography>
           </Grid>
         </Grid>
       )}
