@@ -41,6 +41,8 @@ const Sequencer = () => {
     [],
   ]);
 
+  const beats = [0, 1, 2, 3, 4, 5, 6, 7];
+
   const handleSoundSelection = (e, newSounds) => {
     setSounds(newSounds);
     newSounds.forEach((note) => {
@@ -61,6 +63,28 @@ const Sequencer = () => {
     });
   };
 
+  const handlePlaySequence = () => {
+    setIsPlaying(true);
+    Tone.Transport.bpm.value = tempo;
+    const sequence = new Tone.Sequence(
+      (time, beat) => {
+        selectedSoundsPerBeat[beat].forEach((sound) => {
+          const synth = new Tone.PolySynth().toDestination();
+          synth.triggerAttackRelease(sound, "8n", time);
+        });
+      },
+      beats,
+      "8n"
+    );
+    sequence.start();
+    Tone.Transport.start();
+  };
+
+  const handleClearSequenceSelection = () => {
+    setSounds([]);
+    setSelectedSoundsPerBeat([[], [], [], [], [], [], [], []]);
+  };
+
   const handlePauseSequence = () => {
     setIsPlaying(false);
     Tone.Transport.pause();
@@ -72,12 +96,13 @@ const Sequencer = () => {
   };
 
   return (
-    <Grid container>
+    <Grid container sx={{ my: 2 }}>
       <Grid item xs={12}>
         <MainControls
           BPM={tempo}
           isPlaying={isPlaying}
-          // onPlay={handlePlaySequence}
+          onClear={handleClearSequenceSelection}
+          onPlay={handlePlaySequence}
           onPause={handlePauseSequence}
           onStop={handleStopSequence}
           onBPMChange={(e, newTempo) => setTempo(newTempo)}
@@ -104,11 +129,11 @@ const Sequencer = () => {
                       sx={{
                         height: 75,
                         width: 75,
-                        border: 4,
-                      }}>
-                      <h6>{note}</h6>
-                      <h6>{`C${cIndex} R${rIndex}`}</h6>
-                    </ToggleButton>
+                        "&.Mui-selected": {
+                          backgroundColor: "black",
+                        },
+                      }}
+                    />
                   ))
                 }
               </ToggleButtonGroup>

@@ -1,11 +1,12 @@
 import React from "react";
-import { IconButton, Grid, Slider, Typography } from "@mui/material";
+import { IconButton, Grid, Slider, Typography, Button } from "@mui/material";
 import PlayIcon from "@mui/icons-material/PlayCircleFilledSharp";
 import PauseIcon from "@mui/icons-material/PauseCircleFilledSharp";
 import StopIcon from "@mui/icons-material/StopCircleSharp";
 
 const MainControls = ({
   isPlaying,
+  onClear,
   onStop,
   onPlay,
   onPause,
@@ -14,22 +15,34 @@ const MainControls = ({
 }) => {
   return (
     <Grid container>
-      <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+      <Grid item xs={3} sx={{ display: "flex", justifyContent: "flex-start" }}>
         {isPlaying ? (
-          <IconButton size="small" onClick={onPause}>
+          <IconButton size="small" onClick={onPause} sx={{ color: "black" }}>
             <PauseIcon />{" "}
           </IconButton>
         ) : (
-          <IconButton size="small" onClick={onPlay}>
+          <IconButton size="small" onClick={onPlay} sx={{ color: "black" }}>
             <PlayIcon />
           </IconButton>
         )}
-        <IconButton size="small" onClick={onStop}>
+        <IconButton size="small" onClick={onStop} color="error">
           <StopIcon />
         </IconButton>
+        {!isPlaying && (
+          <Button variant="text" size="small" color="error" onClick={onClear}>
+            Clear
+          </Button>
+        )}
       </Grid>
-      <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-        <Typography variant="h6" sx={{ pr: 2 }}>
+      <Grid
+        item
+        xs={9}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
+        <Typography variant="caption" sx={{ pr: 2 }}>
           BPM
         </Typography>
         <Slider
@@ -41,6 +54,7 @@ const MainControls = ({
           step={6}
           defaultValue={120}
           onChange={onBPMChange}
+          sx={{ color: "black" }}
         />
       </Grid>
     </Grid>
