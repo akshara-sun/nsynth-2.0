@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Grid, Link, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Piano from "../components/Piano";
@@ -28,7 +28,7 @@ const App = () => {
   };
 
   return (
-    <Container disableGutters maxWidth="sm">
+    <Container disableGutters>
       <Typography variant="h1" align="center" sx={{ my: 4 }}>
         Nsynth 2.0
       </Typography>
@@ -38,14 +38,39 @@ const App = () => {
           laptop computer.
         </Typography>
       ) : (
-        <>
-          <AppHeader isOn={isOn} onStartSynth={handleStartSynth} />
-          <Box sx={{ visibility: isOn ? "visible" : "hidden" }}>
-            <DrumPads sounds={DRUM_SOUNDS} />
-            <Piano whiteKeys={NATURAL_NOTES} blackKeys={SHARP_NOTES} />
-            <Sequencer />
-          </Box>
-        </>
+        <Grid container columns={16} columnGap={6}>
+          <Grid item xs={16}>
+            <AppHeader isOn={isOn} onStartSynth={handleStartSynth} />
+          </Grid>
+          <Grid item xs={8}>
+            <Box sx={{ visibility: isOn ? "visible" : "hidden" }}>
+              <DrumPads sounds={DRUM_SOUNDS} />
+              <Piano whiteKeys={NATURAL_NOTES} blackKeys={SHARP_NOTES} />
+            </Box>
+          </Grid>
+          <Grid
+            item
+            xs={7}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}>
+            <Box sx={{ visibility: isOn ? "visible" : "hidden" }}>
+              <Sequencer />
+            </Box>
+            <Typography variant="body2">
+              NSynth 2.0 is a web-based synthesizer and sequencer that uses the
+              Tone.js library.
+            </Typography>
+            <Typography
+              variant="caption"
+              component={Link}
+              href="https://github.com/akshara-sun">
+              Built by Akshara.
+            </Typography>
+          </Grid>
+        </Grid>
       )}
     </Container>
   );

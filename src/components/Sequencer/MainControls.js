@@ -15,7 +15,7 @@ const MainControls = ({
 }) => {
   return (
     <Grid container>
-      <Grid item xs={3} sx={{ display: "flex", justifyContent: "flex-start" }}>
+      <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-start" }}>
         {isPlaying ? (
           <IconButton size="small" onClick={onPause} sx={{ color: "black" }}>
             <PauseIcon />{" "}
@@ -36,7 +36,7 @@ const MainControls = ({
       </Grid>
       <Grid
         item
-        xs={9}
+        xs={6}
         sx={{
           display: "flex",
           justifyContent: "center",

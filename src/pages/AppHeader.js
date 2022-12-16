@@ -6,12 +6,12 @@ const AppHeader = ({ isOn, onStartSynth }) => {
     <Box
       sx={{
         display: "flex",
-        justifyContent: isOn ? "flex-end" : "space-between",
+        justifyContent: isOn ? "flex-end" : "center",
         alignItems: "center",
       }}>
       {!isOn && (
-        <Typography variant="h6" align="center">
-          Click the button to turn on the synthesizer
+        <Typography variant="h6" align="center" sx={{ pr: 8 }}>
+          Click the button to turn on the synthesizer.
         </Typography>
       )}
       <ToggleButton
@@ -21,11 +21,11 @@ const AppHeader = ({ isOn, onStartSynth }) => {
           width: 50,
           height: 50,
           m: 1,
-          backgroundColor: isOn ? "grey" : "black",
+          backgroundColor: isOn ? "red" : "green",
           "&:hover": {
             backgroundColor: "beige",
           },
-          color: isOn ? "black" : "green",
+          color: "black",
         }}>
         {isOn ? "Off" : "On"}
       </ToggleButton>
