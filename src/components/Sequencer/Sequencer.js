@@ -70,6 +70,7 @@ const Sequencer = () => {
       (time, beat) => {
         selectedSoundsPerBeat[beat].forEach((sound) => {
           const synth = new Tone.PolySynth().toDestination();
+          synth.set({ detune: -1200 });
           synth.triggerAttackRelease(sound, "8n", time);
         });
       },
@@ -96,7 +97,7 @@ const Sequencer = () => {
   };
 
   return (
-    <Grid container sx={{ my: 2 }}>
+    <Grid container>
       <Grid item xs={12}>
         <MainControls
           BPM={tempo}
@@ -114,10 +115,7 @@ const Sequencer = () => {
           // rIndex is the row index
           availableSounds.map((sound, rIndex) => (
             <Box key={rIndex}>
-              <ToggleButtonGroup
-                size="large"
-                value={sounds}
-                onChange={handleSoundSelection}>
+              <ToggleButtonGroup value={sounds} onChange={handleSoundSelection}>
                 {
                   // each button represents a note
                   // cIndex is the column index
@@ -127,10 +125,11 @@ const Sequencer = () => {
                       key={cIndex}
                       value={note}
                       sx={{
-                        height: 75,
-                        width: 75,
+                        height: 65,
+                        width: 65,
                         "&.Mui-selected": {
-                          backgroundColor: "black",
+                          backgroundColor: "primary.dark",
+                          borderColor: "primary.light",
                         },
                       }}
                     />

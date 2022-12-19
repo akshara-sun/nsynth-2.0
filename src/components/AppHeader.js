@@ -10,22 +10,20 @@ const AppHeader = ({ isOn, onStartSynth }) => {
         alignItems: "center",
       }}>
       {!isOn && (
-        <Typography variant="h6" align="center" sx={{ pr: 8 }}>
-          Click the button to turn on the synthesizer.
+        <Typography variant="h6" sx={{ pr: 2 }}>
+          Click to turn on the synth.
         </Typography>
       )}
       <ToggleButton
         value="check"
         onClick={onStartSynth}
         sx={{
-          width: 50,
-          height: 50,
           m: 1,
-          backgroundColor: isOn ? "red" : "green",
+          backgroundColor: isOn ? "primary.error" : "primary.success",
           "&:hover": {
-            backgroundColor: "beige",
+            backgroundColor: "primary.buttonHover",
           },
-          color: "black",
+          color: "primary.main",
         }}>
         {isOn ? "Off" : "On"}
       </ToggleButton>

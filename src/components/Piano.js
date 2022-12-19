@@ -3,13 +3,19 @@ import { Grid, Paper, Typography } from "@mui/material";
 import * as Tone from "tone";
 import PianoControls from "./PianoControls";
 
-const Piano = ({ whiteKeys, blackKeys }) => {
+const Piano = ({ whiteKeys, blackKeys, onOctaveUp, onOctaveDown }) => {
   const [showNoteNames, setShowNoteNames] = useState(false);
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
-  const synth = new Tone.Synth().toDestination();
+  const synth = new Tone.Sampler({
+    urls: {
+      A1: "A1.mp3",
+      A2: "A2.mp3",
+    },
+    baseUrl: "https://tonejs.github.io/audio/casio/",
+  }).toDestination();
 
-  document.addEventListener("keydown", (e) => {
-    if (e.repeat) return;
+  document.addEventListener("keydown", async (e) => {
+    await Tone.start();
     const key = e.key;
     const natural = whiteKeys.find((note) => note.key === key);
     const sharp = blackKeys.find((note) => note.key === key);
@@ -18,7 +24,7 @@ const Piano = ({ whiteKeys, blackKeys }) => {
       const activeKey = document.getElementById(natural.id);
       activeKey.style.backgroundColor = "lightgray";
       document.addEventListener("keyup", (e) => {
-        activeKey.style.backgroundColor = "white";
+        activeKey.style.backgroundColor = "primary.light";
       });
     }
     if (sharp) {
@@ -26,7 +32,7 @@ const Piano = ({ whiteKeys, blackKeys }) => {
       const activeKey = document.getElementById(sharp.id);
       activeKey.style.backgroundColor = "gray";
       document.addEventListener("keyup", (e) => {
-        activeKey.style.backgroundColor = "black";
+        activeKey.style.backgroundColor = "primary.main";
       });
     }
   });
@@ -36,8 +42,13 @@ const Piano = ({ whiteKeys, blackKeys }) => {
       container
       component={Paper}
       elevation={2}
-      sx={{ p: 2, backgroundColor: "gray" }}>
-      <Grid container item columns={18} columnGap={1} className="white-keys">
+      sx={{ p: 2, backgroundColor: "primary.base" }}>
+      <Grid
+        container
+        item
+        columns={18}
+        columnGap={1}
+        className="primary.light-keys">
         {whiteKeys.map((note, index) => (
           <Grid
             id={note.id}
@@ -53,13 +64,23 @@ const Piano = ({ whiteKeys, blackKeys }) => {
               "&:active": {
                 boxShadow: 15,
               },
+              flexDirection: "column",
               display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "center",
+              alignItems: "center",
+              justifyContent: "flex-end",
               height: 220,
             }}
-            className="white-key"
+            className="primary.light-key"
             onClick={() => synth.triggerAttackRelease(note.name, "8n")}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: "primary.dark",
+                pt: 1,
+                visibility: showKeyboardShortcuts ? "visible" : "hidden",
+              }}>
+              {note.key}
+            </Typography>
             <Typography
               variant="caption"
               sx={{ visibility: showNoteNames ? "visible" : "hidden" }}>
@@ -71,7 +92,7 @@ const Piano = ({ whiteKeys, blackKeys }) => {
       <Grid
         container
         item
-        className="black-keys"
+        className="white-keys"
         columns={12}
         columnGap={4}
         sx={{
@@ -92,8 +113,8 @@ const Piano = ({ whiteKeys, blackKeys }) => {
               "&:active": {
                 boxShadow: 15,
               },
-              backgroundColor: "black",
-              color: "white",
+              backgroundColor: "primary.main",
+              color: "primary.light",
               display: "flex",
               flexDirection: "column",
               textAlign: "center",
@@ -107,7 +128,7 @@ const Piano = ({ whiteKeys, blackKeys }) => {
             <Typography
               variant="caption"
               sx={{
-                color: "yellow",
+                color: "primary.dark",
                 pt: 1,
                 visibility: showKeyboardShortcuts ? "visible" : "hidden",
               }}>
@@ -129,6 +150,8 @@ const Piano = ({ whiteKeys, blackKeys }) => {
       <PianoControls
         showKeyboardShortcuts={showKeyboardShortcuts}
         showNoteNames={showNoteNames}
+        onOctaveUp={onOctaveUp}
+        onOctaveDown={onOctaveDown}
         onToggleKeyboardShortcuts={() =>
           setShowKeyboardShortcuts(!showKeyboardShortcuts)
         }
