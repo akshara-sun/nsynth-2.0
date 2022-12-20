@@ -24,7 +24,8 @@ const PianoControls = ({
           display: "flex",
           justifyContent: "space-between",
           width: 560,
-        }}>
+        }}
+      >
         <Tooltip title="Decrease octave" placement="left">
           <IconButton
             size="small"
@@ -32,7 +33,8 @@ const PianoControls = ({
               backgroundColor: "primary.flash",
               "&:hover": { backgroundColor: "primary.buttonHover" },
             }}
-            onClick={onOctaveDown}>
+            onClick={onOctaveDown}
+          >
             <RemoveIcon />
           </IconButton>
         </Tooltip>
@@ -41,9 +43,10 @@ const PianoControls = ({
             size="small"
             sx={{
               backgroundColor: "primary.flash",
-              "&:hover": { backgroundColor: "yellow" },
+              "&:hover": { backgroundColor: "primary.buttonHover" },
             }}
-            onClick={onOctaveUp}>
+            onClick={onOctaveUp}
+          >
             <AddIcon />
           </IconButton>
         </Tooltip>

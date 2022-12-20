@@ -8,7 +8,8 @@ const AppHeader = ({ isOn, onStartSynth }) => {
         display: "flex",
         justifyContent: isOn ? "flex-end" : "center",
         alignItems: "center",
-      }}>
+      }}
+    >
       {!isOn && (
         <Typography variant="h6" sx={{ pr: 2 }}>
           Click to turn on the synth.
@@ -24,7 +25,8 @@ const AppHeader = ({ isOn, onStartSynth }) => {
             backgroundColor: "primary.buttonHover",
           },
           color: "primary.main",
-        }}>
+        }}
+      >
         {isOn ? "Off" : "On"}
       </ToggleButton>
     </Box>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Container, Grid, Link, Stack, Typography } from "@mui/material";
 import { ThemeProvider, useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -17,13 +17,6 @@ const App = () => {
   const [sharps, setSharps] = useState(SHARP_NOTES);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  // keep synth turned on when page is refreshed
-  useEffect(() => {
-    if (isOn) {
-      Tone.start();
-    }
-  }, [isOn]);
 
   const handleStartSynth = async () => {
     setIsOn(!isOn);
@@ -107,7 +100,8 @@ const App = () => {
               <Box
                 sx={{
                   visibility: isOn ? "visible" : "hidden",
-                }}>
+                }}
+              >
                 <Sequencer />
                 <Stack
                   sx={{
@@ -115,7 +109,8 @@ const App = () => {
                     bottom: 100,
                     width: 500,
                     textAlign: "center",
-                  }}>
+                  }}
+                >
                   <Typography variant="body2">
                     NSynth 2.0 is a web app that allows you to create music
                     using your computer keyboard. Built using React, Tone.js,
@@ -125,7 +120,8 @@ const App = () => {
                     variant="caption"
                     component={Link}
                     sx={{ color: "primary.dark" }}
-                    href="https://github.com/akshara-sun">
+                    href="https://github.com/akshara-sun"
+                  >
                     Built by Akshara.
                   </Typography>
                 </Stack>

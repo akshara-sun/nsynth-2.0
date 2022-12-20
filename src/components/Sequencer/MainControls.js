@@ -20,14 +20,16 @@ const MainControls = ({
           <IconButton
             size="small"
             onClick={onPause}
-            sx={{ color: "primary.dark" }}>
+            sx={{ color: "primary.dark" }}
+          >
             <PauseIcon />{" "}
           </IconButton>
         ) : (
           <IconButton
             size="small"
             onClick={onPlay}
-            sx={{ color: "primary.dark" }}>
+            sx={{ color: "primary.dark" }}
+          >
             <PlayIcon />
           </IconButton>
         )}
@@ -47,7 +49,8 @@ const MainControls = ({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-        }}>
+        }}
+      >
         <Typography variant="caption" sx={{ pr: 2 }}>
           BPM
         </Typography>

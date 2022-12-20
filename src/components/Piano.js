@@ -14,26 +14,29 @@ const Piano = ({ whiteKeys, blackKeys, onOctaveUp, onOctaveDown }) => {
     baseUrl: "https://tonejs.github.io/audio/casio/",
   }).toDestination();
 
-  document.addEventListener("keydown", async (e) => {
-    await Tone.start();
+  document.addEventListener("keydown", (e) => {
     const key = e.key;
     const natural = whiteKeys.find((note) => note.key === key);
     const sharp = blackKeys.find((note) => note.key === key);
     if (natural) {
       synth.triggerAttackRelease(natural.name, "8n");
-      const activeKey = document.getElementById(natural.id);
-      activeKey.style.backgroundColor = "lightgray";
-      document.addEventListener("keyup", (e) => {
-        activeKey.style.backgroundColor = "primary.light";
-      });
+      const activeWhiteKey = document.getElementById(natural.id);
+      // change color of active key to indicate it is being played
+      activeWhiteKey.style.backgroundColor = "#80b9b9";
+      // change color back to original after 100ms
+      setTimeout(() => {
+        activeWhiteKey.style.backgroundColor = "#ffffff";
+      }, 100);
     }
     if (sharp) {
       synth.triggerAttackRelease(sharp.name, "8n");
-      const activeKey = document.getElementById(sharp.id);
-      activeKey.style.backgroundColor = "gray";
-      document.addEventListener("keyup", (e) => {
-        activeKey.style.backgroundColor = "primary.main";
-      });
+      const activeBlackKey = document.getElementById(sharp.id);
+      // change color of active key to indicate it is being played
+      activeBlackKey.style.backgroundColor = "#e6ffff";
+      // change color back to original after 100ms
+      setTimeout(() => {
+        activeBlackKey.style.backgroundColor = "#000000";
+      }, 100);
     }
   });
 
@@ -42,13 +45,15 @@ const Piano = ({ whiteKeys, blackKeys, onOctaveUp, onOctaveDown }) => {
       container
       component={Paper}
       elevation={2}
-      sx={{ p: 2, backgroundColor: "primary.base" }}>
+      sx={{ p: 2, backgroundColor: "primary.base" }}
+    >
       <Grid
         container
         item
         columns={18}
         columnGap={1}
-        className="primary.light-keys">
+        className="primary.light-keys"
+      >
         {whiteKeys.map((note, index) => (
           <Grid
             id={note.id}
@@ -70,20 +75,23 @@ const Piano = ({ whiteKeys, blackKeys, onOctaveUp, onOctaveDown }) => {
               justifyContent: "flex-end",
               height: 220,
             }}
-            className="primary.light-key"
-            onClick={() => synth.triggerAttackRelease(note.name, "8n")}>
+            className="white-keys"
+            onClick={() => synth.triggerAttackRelease(note.name, "8n")}
+          >
             <Typography
               variant="caption"
               sx={{
                 color: "primary.dark",
                 pt: 1,
                 visibility: showKeyboardShortcuts ? "visible" : "hidden",
-              }}>
+              }}
+            >
               {note.key}
             </Typography>
             <Typography
               variant="caption"
-              sx={{ visibility: showNoteNames ? "visible" : "hidden" }}>
+              sx={{ visibility: showNoteNames ? "visible" : "hidden" }}
+            >
               {note.name}
             </Typography>
           </Grid>
@@ -92,13 +100,14 @@ const Piano = ({ whiteKeys, blackKeys, onOctaveUp, onOctaveDown }) => {
       <Grid
         container
         item
-        className="white-keys"
+        className="black-keys"
         columns={12}
         columnGap={4}
         sx={{
           position: "absolute",
           pl: 6,
-        }}>
+        }}
+      >
         {blackKeys.map((note, index) => (
           <Grid
             id={note.id}
@@ -124,14 +133,16 @@ const Piano = ({ whiteKeys, blackKeys, onOctaveUp, onOctaveDown }) => {
               mr: index === 1 && 9,
             }}
             className="black-keys"
-            onClick={() => synth.triggerAttackRelease(note.name, "8n")}>
+            onClick={() => synth.triggerAttackRelease(note.name, "8n")}
+          >
             <Typography
               variant="caption"
               sx={{
                 color: "primary.dark",
                 pt: 1,
                 visibility: showKeyboardShortcuts ? "visible" : "hidden",
-              }}>
+              }}
+            >
               {note.key}
             </Typography>
             <Typography
@@ -139,7 +150,8 @@ const Piano = ({ whiteKeys, blackKeys, onOctaveUp, onOctaveDown }) => {
               sx={{
                 maxWidth: 24,
                 visibility: showNoteNames ? "visible" : "hidden",
-              }}>
+              }}
+            >
               {note.name}
               {` -- `}
               {note.enharmonic}
