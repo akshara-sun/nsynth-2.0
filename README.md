@@ -5,7 +5,7 @@ is directly inspired by the Akai MPK MINI II.
 
 ## Preview
 
-testing ![Preview](public/Preview.png)
+![Preview](public/Preview.png)
 
 ## Features
 
