@@ -17,11 +17,19 @@ const MainControls = ({
     <Grid container>
       <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-start" }}>
         {isPlaying ? (
-          <IconButton size="small" onClick={onPause} sx={{ color: "black" }}>
+          <IconButton
+            size="small"
+            onClick={onPause}
+            sx={{ color: "primary.dark" }}
+          >
             <PauseIcon />{" "}
           </IconButton>
         ) : (
-          <IconButton size="small" onClick={onPlay} sx={{ color: "black" }}>
+          <IconButton
+            size="small"
+            onClick={onPlay}
+            sx={{ color: "primary.dark" }}
+          >
             <PlayIcon />
           </IconButton>
         )}
@@ -41,7 +49,8 @@ const MainControls = ({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-        }}>
+        }}
+      >
         <Typography variant="caption" sx={{ pr: 2 }}>
           BPM
         </Typography>
@@ -54,7 +63,7 @@ const MainControls = ({
           step={6}
           defaultValue={120}
           onChange={onBPMChange}
-          sx={{ color: "black" }}
+          sx={{ color: "primary.dark" }}
         />
       </Grid>
     </Grid>

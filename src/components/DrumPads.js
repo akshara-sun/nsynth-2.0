@@ -7,7 +7,11 @@ const DrumPads = ({ sounds }) => {
       container
       sx={{ display: "flex", justifyContent: "center", borderRadius: 8 }}>
       {sounds.map((sound) => (
-        <Grid key={sound.id} item xs={3} sx={{ backgroundColor: "black" }}>
+        <Grid
+          key={sound.id}
+          item
+          xs={3}
+          sx={{ backgroundColor: "primary.main" }}>
           <ButtonGroup size="large">
             <Button
               fullWidth={true}
@@ -17,11 +21,12 @@ const DrumPads = ({ sounds }) => {
                 width: 100,
                 p: 4,
                 m: 2,
-                color: "white",
-                border: "1px solid white",
+                color: "primary.light",
+                borderColor: "primary.light",
                 "&:hover": {
-                  backgroundColor: "gray",
-                  border: "1px solid white",
+                  backgroundColor: "primary.highlight",
+                  color: "primary.dark",
+                  borderColor: "primary.light",
                 },
               }}
               onClick={() => {
