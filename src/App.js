@@ -72,7 +72,7 @@ const App = () => {
   return (
     <ThemeProvider theme={Theme}>
       <Container disableGutters>
-        <Typography variant="h1" align="center">
+        <Typography variant="h2" align="center">
           NSynth 2.0
         </Typography>
         {isMobile ? (

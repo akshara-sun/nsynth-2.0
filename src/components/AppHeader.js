@@ -1,18 +1,24 @@
 import React from "react";
 import { Box, ToggleButton, Typography } from "@mui/material";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 const AppHeader = ({ isOn, onStartSynth }) => {
   return (
     <Box
       sx={{
         display: "flex",
-        justifyContent: isOn ? "flex-end" : "center",
+        justifyContent: isOn ? "space-between" : "center",
         alignItems: "center",
       }}
     >
-      {!isOn && (
+      {isOn ? (
         <Typography variant="h6" sx={{ pr: 2 }}>
-          Click to turn on the synth.
+          Choose a sound and start playing!
+        </Typography>
+      ) : (
+        <Typography variant="h6" sx={{ display: "flex", alignItems: "center" }}>
+          Click button to turn on the synth.
+          <ArrowRightAltIcon color="success" fontSize="large" sx={{ px: 2 }} />
         </Typography>
       )}
       <ToggleButton
