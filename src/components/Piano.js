@@ -91,7 +91,7 @@ const Piano = ({ whiteKeys, blackKeys, onOctaveUp, onOctaveDown }) => {
             select={true}
             variant="standard"
             sx={{ backgroundColor: "primary.highlight", width: 200 }}
-            label="Select a sound"
+            label="Select a piano sound"
             value={instrument}
             defaultValue="guitar"
             onChange={handleChangeInstrument}
