@@ -7,15 +7,11 @@ const AppHeader = ({ isOn, onStartSynth }) => {
     <Box
       sx={{
         display: "flex",
-        justifyContent: isOn ? "space-between" : "center",
+        justifyContent: isOn ? "flex-end" : "center",
         alignItems: "center",
       }}
     >
-      {isOn ? (
-        <Typography variant="h6" sx={{ pr: 2 }}>
-          Choose a sound and start playing!
-        </Typography>
-      ) : (
+      {!isOn && (
         <Typography variant="h6" sx={{ display: "flex", alignItems: "center" }}>
           Click button to turn on the synth.
           <ArrowRightAltIcon color="success" fontSize="large" sx={{ px: 2 }} />
