@@ -13,8 +13,4 @@ is directly inspired by the Akai MPK MINI II.
 2. Drum pads
 3. Sequencer
 4. Instrument bank
-
-## Coming soon
-
-1. Dark theme
-2. Waveform renderer
+5. Note display
