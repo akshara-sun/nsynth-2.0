@@ -10,9 +10,12 @@ import { DRUM_SOUNDS } from "./constants/DRUM_SOUNDS";
 import AppHeader from "./components/AppHeader";
 import Theme from "./theme";
 import * as Tone from "tone";
+import InstrumentBank from "./components/InstrumentBank";
 
 const App = () => {
   const [isOn, setIsOn] = useState(false);
+  const [isPlayable, setIsPlayable] = useState(false);
+  const [synth, setSynth] = useState({});
   const [naturals, setNaturals] = useState(NATURAL_NOTES);
   const [sharps, setSharps] = useState(SHARP_NOTES);
   const theme = useTheme();
@@ -75,7 +78,7 @@ const App = () => {
         <Typography variant="h2" align="center">
           NSynth 2.0
         </Typography>
-        {isMobile ? (
+        {isMobile || window.innerWidth <= 912 ? (
           <Typography variant="h6" align="center">
             This app is not optimized for mobile devices. Please use a desktop
             or laptop computer.
@@ -87,21 +90,49 @@ const App = () => {
             </Grid>
             <Grid item xs={6}>
               <Box sx={{ visibility: isOn ? "visible" : "hidden" }}>
-                <DrumPads sounds={DRUM_SOUNDS} />
-                <Piano
-                  whiteKeys={naturals}
-                  blackKeys={sharps}
-                  onOctaveUp={handleOctaveUp}
-                  onOctaveDown={handleOctaveDown}
-                />
+                <Grid container>
+                  <Grid item xs={12}>
+                    <DrumPads sounds={DRUM_SOUNDS} />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      backgroundColor: isPlayable
+                        ? "primary.highlight"
+                        : "primary.dark",
+                    }}>
+                    <InstrumentBank
+                      onSynthSelect={setSynth}
+                      onPlay={setIsPlayable}
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{
+                      opacity: isPlayable ? "100%" : "40%",
+                      cursor: isPlayable ? "pointer" : "not-allowed",
+                    }}>
+                    <Piano
+                      isPlayable={isPlayable}
+                      synth={synth}
+                      whiteKeys={naturals}
+                      blackKeys={sharps}
+                      onOctaveUp={handleOctaveUp}
+                      onOctaveDown={handleOctaveDown}
+                    />
+                  </Grid>
+                </Grid>
               </Box>
             </Grid>
             <Grid item xs={5}>
               <Box
                 sx={{
                   visibility: isOn ? "visible" : "hidden",
-                }}
-              >
+                }}>
                 <Sequencer />
                 <Stack
                   sx={{
@@ -109,8 +140,7 @@ const App = () => {
                     bottom: 100,
                     width: 500,
                     textAlign: "center",
-                  }}
-                >
+                  }}>
                   <Typography variant="body2">
                     NSynth 2.0 is a web app that allows you to create music
                     using your computer keyboard. Built using React, Tone.js,
@@ -120,8 +150,7 @@ const App = () => {
                     variant="caption"
                     component={Link}
                     sx={{ color: "primary.dark" }}
-                    href="https://github.com/akshara-sun"
-                  >
+                    href="https://github.com/akshara-sun">
                     Built by Akshara.
                   </Typography>
                 </Stack>
